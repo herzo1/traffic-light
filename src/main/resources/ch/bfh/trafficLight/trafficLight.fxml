@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.shape.Circle?>
+<?import javafx.scene.control.Button?>
+
+<VBox alignment="CENTER" spacing="20.0" style="-fx-background-color: gray;" xmlns="http://javafx.com/javafx/11.0.1" 
+xmlns:fx="http://javafx.com/fxml/1" fx:controller="ch.bfh.trafficLight.TrafficLightController">
+    <padding>
+        <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+    </padding>
+   <children>
+      <Circle fx:id="lightRed" fill="#bf1a1a" opacity="0.15" radius="100.0" stroke="BLACK" strokeType="INSIDE" />
+      <Circle fx:id="lightYellow" fill="#ffc41f" opacity="0.15" radius="100.0" stroke="BLACK" strokeType="INSIDE" />
+      <Circle fx:id="lightGreen" fill="#19b545" opacity="0.15" radius="100.0" stroke="BLACK" strokeType="INSIDE" />
+      <HBox>
+			<Button fx:id="btnOff" onAction="#onBtnOff" text="Off" defaultButton="true"/>
+			<Button fx:id="btnOn" onAction="#onBtnOn" text="On" />
+			<Button fx:id="btnWarning" onAction="#onBtnWarning" text="Warning" />
+      </HBox>
+   </children>
+</VBox>

@@ -1,3 +1,10 @@
+# Intellij
+.idea/
+trafficLight.iml
+
+# Target folder
+target/
+
 # Compiled class file
 *.class
 
