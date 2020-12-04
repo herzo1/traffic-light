@@ -5,4 +5,5 @@ module ch.bfh.trafficLight {
 
     opens ch.bfh.trafficLight to javafx.fxml;
     exports ch.bfh.trafficLight;
+    exports ch.bfh.trafficLight.states;
 }

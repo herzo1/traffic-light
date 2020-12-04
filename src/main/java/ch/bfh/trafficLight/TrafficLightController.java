@@ -41,9 +41,9 @@ public class TrafficLightController implements Initializable, InvalidationListen
 
             @Override
             public void run() {
-                lightGreen.setOpacity((trafficLight.isGreenOn()) ? 1.0 : 0.15);
-                lightYellow.setOpacity(trafficLight.isYellowOn() ? 1.0 : 0.15);
-                lightRed.setOpacity(trafficLight.isRedOn() ? 1.0 : 0.15);
+                lightGreen.setOpacity((trafficLight.isGreen()) ? 1.0 : 0.15);
+                lightYellow.setOpacity(trafficLight.isYellow() ? 1.0 : 0.15);
+                lightRed.setOpacity(trafficLight.isRed() ? 1.0 : 0.15);
             }
 
         });

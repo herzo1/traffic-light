@@ -1,35 +1,27 @@
 package ch.bfh.trafficLight;
 
-import java.util.HashSet;
-
 import javafx.beans.InvalidationListener;
 import javafx.beans.Observable;
 import javafx.concurrent.Task;
+
+import java.util.HashSet;
+import java.util.Timer;
 
 /**
  * A simple traffic light with its business logic.
  * 
  * @author marcel.pfahrer[at]bfh.ch
  */
-public class TrafficLight 
+public class TrafficLight
     extends Task<Void> 
-    implements Observable {
+    implements Observable, ITrafficLight {
 
-    public static final String OFF = "OFF";
-    public static final String WARNING = "WARNING";
-    public static final String GREEN = "GREEN";
-    public static final String YELLOW = "YELLOW";
-    public static final String RED = "RED";
+    private ch.bfh.trafficLight.states.State state;
+    private Timer timer;
 
-    static final int DURATION_GREEN = 15;
-    static final int DURATION_YELLOW = 3;
-    static final int DURATION_RED = 10;
-
-    String status = OFF;
-    boolean greenOn = false;
-    boolean yellowOn = false;
-    boolean redOn = false;
-    int duration = 0;
+    boolean green = false;
+    boolean yellow = false;
+    boolean red = false;
 
     public TrafficLight() {
         Thread t = new Thread(this);
@@ -37,70 +29,36 @@ public class TrafficLight
         t.start();
     }
 
-    public String getStatus() {
-        return status;
-    }
-
-    private void setStatus(String newStatus, boolean green, boolean yellow, boolean red) {
-        
-        System.out.println(status + " -> " + newStatus);
-        
-        status = newStatus;
-        
-        greenOn = green;
-        yellowOn = yellow;
-        redOn = red;
-        
-        duration = 0;
-
-        notifyListeners();
-    }
-
     public void switchOn() {
-        if (status == OFF || status == WARNING) {
-            setStatus(GREEN, true, false, false);
-        }
+        this.state.handleOn();
     }
 
     public void switchOff() {
-        setStatus(OFF, false, false, false);
+        this.state.handleOff();
     }
 
     public void switchWarning() {
-        setStatus(WARNING, false, true, false);
+        this.state.handleWarning();
     }
 
-    public boolean isGreenOn() {
-        return greenOn;
+    public boolean isGreen() {
+        return green;
     }
 
-    public boolean isYellowOn() {
-        return yellowOn;
+    public boolean isYellow() {
+        return yellow;
     }
 
-    public boolean isRedOn() {
-        return redOn;
+    public boolean isRed() {
+        return red;
     }
 
     @Override
     public Void call() throws Exception {
         try {
             while (true) {
-                duration++;
-                System.out.print(".");
+                // Todo: implement timer here
 
-                if (status == WARNING) {
-                    setStatus(WARNING, false, !yellowOn, false);
-                }
-                else if (status == GREEN && duration >= DURATION_GREEN) {
-                    setStatus(YELLOW, false, true, false);
-                }
-                else if (status == YELLOW && duration >= DURATION_YELLOW) {
-                    setStatus(RED, false, false, true);
-                }
-                else if (status == RED && duration >= DURATION_RED) {
-                    setStatus(GREEN, true, false, false);
-                }
 
                 Thread.sleep(1000);
             }
@@ -139,5 +97,22 @@ public class TrafficLight
     public static TrafficLight getInstance() {
 
         return instance;
+    }
+
+    @Override
+    public void setState(ch.bfh.trafficLight.states.State state) {
+        this.state = state;
+    }
+
+    @Override
+    public void setTimer(int seconds) {
+
+    }
+
+    @Override
+    public void setLights(boolean green, boolean yellow, boolean red) {
+        this.green = green;
+        this.yellow = yellow;
+        this.red = red;
     }
 }
