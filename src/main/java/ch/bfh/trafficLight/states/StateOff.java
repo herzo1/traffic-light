@@ -9,16 +9,6 @@ public class StateOff extends State {
 
     @Override
     public void onEnter() {
-
-    }
-
-    @Override
-    public void handleWarning() {
-
-    }
-
-    @Override
-    public void handleOn() {
-
+        super.trafficLight.setLights(false, false, false);
     }
 }

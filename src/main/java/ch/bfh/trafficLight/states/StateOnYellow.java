@@ -10,10 +10,11 @@ public class StateOnYellow extends StateOn{
     }
 
     public void onEnter() {
-
+        super.trafficLight.setLights(false, true, false);
+        super.trafficLight.setTimer(DURATION);
     }
 
     public void handleTimer() {
-
+        super.trafficLight.setState(new StateOnRed(super.trafficLight));
     }
 }

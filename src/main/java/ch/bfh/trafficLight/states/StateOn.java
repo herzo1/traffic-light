@@ -7,14 +7,10 @@ public abstract class StateOn extends State {
         super(trafficLight);
     }
 
+    public void handleOn() {
+        // do nothing...
+    }
+
     abstract public void onEnter();
     abstract public void handleTimer();
-
-    public void handleWarning() {
-
-    }
-
-    public void handleOff() {
-
-    }
 }

@@ -1,11 +1,11 @@
 package ch.bfh.trafficLight;
 
+import ch.bfh.trafficLight.states.StateOff;
 import javafx.beans.InvalidationListener;
 import javafx.beans.Observable;
 import javafx.concurrent.Task;
 
 import java.util.HashSet;
-import java.util.Timer;
 
 /**
  * A simple traffic light with its business logic.
@@ -13,20 +13,18 @@ import java.util.Timer;
  * @author marcel.pfahrer[at]bfh.ch
  */
 public class TrafficLight
-    extends Task<Void> 
     implements Observable, ITrafficLight {
 
     private ch.bfh.trafficLight.states.State state;
-    private Timer timer;
 
-    boolean green = false;
-    boolean yellow = false;
-    boolean red = false;
+    private Thread t;
+
+    private boolean green = false;
+    private boolean yellow = false;
+    private boolean red = false;
 
     public TrafficLight() {
-        Thread t = new Thread(this);
-        t.setDaemon(true);
-        t.start();
+        this.state = new StateOff(this);
     }
 
     public void switchOn() {
@@ -51,23 +49,6 @@ public class TrafficLight
 
     public boolean isRed() {
         return red;
-    }
-
-    @Override
-    public Void call() throws Exception {
-        try {
-            while (true) {
-                // Todo: implement timer here
-
-
-                Thread.sleep(1000);
-            }
-        } 
-        catch (InterruptedException ex) {
-            ex.printStackTrace();
-        }
-
-        return null;
     }
 
     // DONE implement Observer pattern and interface
@@ -102,11 +83,22 @@ public class TrafficLight
     @Override
     public void setState(ch.bfh.trafficLight.states.State state) {
         this.state = state;
+        this.state.onEnter();
     }
 
     @Override
     public void setTimer(int seconds) {
-
+        if (t != null && t.isAlive()) {
+            t.interrupt();
+        }
+        t = new Thread(() -> {
+                try {
+                    Thread.sleep(seconds * 1000);
+                    state.handleTimer();
+                } catch (InterruptedException ignored) {
+                }
+            });
+        t.start();
     }
 
     @Override
@@ -114,5 +106,6 @@ public class TrafficLight
         this.green = green;
         this.yellow = yellow;
         this.red = red;
+        this.notifyListeners();
     }
 }

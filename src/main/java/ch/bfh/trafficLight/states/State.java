@@ -3,7 +3,7 @@ package ch.bfh.trafficLight.states;
 import ch.bfh.trafficLight.ITrafficLight;
 
 public abstract class State {
-    private final ITrafficLight trafficLight;
+    protected final ITrafficLight trafficLight;
 
     public State(ITrafficLight trafficLight) {
         this.trafficLight = trafficLight;

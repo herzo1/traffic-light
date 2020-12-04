@@ -7,23 +7,25 @@ public class StateWarning extends State {
     private boolean isOn = false;
 
     public StateWarning(ITrafficLight trafficLight) {
+        this(trafficLight, true);
+    }
+
+    private StateWarning(ITrafficLight trafficLight, boolean isOn) {
         super(trafficLight);
+        this.isOn = isOn;
+    }
+
+    public void handleWarning() {
+        // do nothing...
     }
 
     public void onEnter() {
-
-    }
-
-    public void handleOn() {
-
-    }
-
-    public void handleOff() {
-
+        super.trafficLight.setLights(false, isOn, false);
+        super.trafficLight.setTimer(DURATION);
     }
 
     public void handleTimer() {
-
+        super.trafficLight.setState(new StateWarning(super.trafficLight, ! isOn));
     }
 
 }
